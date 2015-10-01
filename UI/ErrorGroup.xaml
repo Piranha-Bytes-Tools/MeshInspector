@@ -1,0 +1,359 @@
+﻿<UserControl x:Class="MeshInspector.UI.ErrorGroup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utils="clr-namespace:MeshInspector.Utils"
+             mc:Ignorable="d"
+             d:Width="1800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MeshInspector;component/Resources/Globals.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Expander Header="Mesh Error Details"
+              IsExpanded="{utils:SettingBinding SettingsExpanded}" Height="Auto" HorizontalAlignment="Stretch">
+        <Grid x:Name="m_gridExpanderContent" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{Binding ContainsErrors}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="Degenerated Triangles">
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding ContainsDegTriErrors}">
+                        <Grid VerticalAlignment="Center"
+                              Margin="0,0,50,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Face Count:"/>
+                            <TextBlock Grid.Column="1" Text="{Binding DegTriCount}" TextAlignment="Center"/>
+                        </Grid>
+                        <Button Height="35" Width="130"
+                        Margin="10,0,10,0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource MetroBaseWindowButtonStyle}"
+                        Background="{StaticResource AccentColorBrush}"
+                        Click="OnSelectFirstDegTri">
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                  Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_control_play}" Stretch="Uniform" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="Select First" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnSelectNextDegTri">
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                  Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_control_fastforward_variant}" Stretch="Uniform" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="Select Next" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnSelectAllDegTri">
+                            <Grid VerticalAlignment="Center" Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_base_select}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                                           Text="Select All" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="1" Header="Illegal Smoothing Groups">
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding ContainsBadSMGErrors}">
+                        <Grid VerticalAlignment="Center"
+                              Margin="0,0,50,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Face Count:"/>
+                            <TextBlock Grid.Column="1" Text="{Binding BadSMGTriCount}" TextAlignment="Center"/>
+                        </Grid>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnSelectFirstBadSMGTri">
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                  Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_control_play}" Stretch="Uniform" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="Select First" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnSelectNextBadSMGTri">
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                  Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_control_fastforward_variant}" Stretch="Uniform" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="Select Next" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnSelectAllBadSMGTri">
+                            <Grid VerticalAlignment="Center" Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_base_select}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                                           Text="Select All" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="2" Header="Degenerated UV-Triangles">
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding ContainsDegUVErrors}">
+                        <Grid VerticalAlignment="Center"
+                              Margin="0,0,50,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Face Count:"/>
+                            <TextBlock Grid.Column="1" Text="{Binding DegUVTriCount}" TextAlignment="Center"/>
+                        </Grid>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnSelectFirstDegUVTri">
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                  Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_control_play}" Stretch="Uniform" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="Select First" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnSelectNextDegUVTri">
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                  Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_control_fastforward_variant}" Stretch="Uniform" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="Select Next" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnSelectAllDegUVTri">
+                            <Grid VerticalAlignment="Center" Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_base_select}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                                           Text="Select All" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="3" Header="Misc">
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding ContainsMiscErrors}">
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                              Margin="0,0,40,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0"
+                                  VerticalAlignment="Center"
+                                  Margin="0,0,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Isolated Verts:"/>
+                                <TextBlock Grid.Column="1" Text="{Binding IsoVertCount}" TextAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Row="1"
+                                  VerticalAlignment="Center"
+                                  Margin="0,0,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Isolated UV Verts:"/>
+                                <TextBlock Grid.Column="1" Text="{Binding IsoUVVertCount}" TextAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Row="2"
+                                  VerticalAlignment="Center"
+                                  Margin="0,0,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Wrong MatIds:"/>
+                                <TextBlock Grid.Column="1" Text="{Binding WrongMatIDCount}" TextAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+                        <Button Height="35" Width="130"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MetroBaseWindowButtonStyle}"
+                                Background="{StaticResource AccentColorBrush}"
+                                Click="OnFixMisc">
+                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                  Margin="10,0,10,00">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle HorizontalAlignment="Left"
+                                           Width="25" Height="25"
+                                           Grid.Column="0"
+                                           Fill="{StaticResource TextColor}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_camera_flash}" Stretch="Uniform" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="Fix It" FontSize="13"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </Expander>
+</UserControl>
