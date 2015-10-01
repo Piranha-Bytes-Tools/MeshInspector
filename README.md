@@ -25,7 +25,7 @@ change post build event copy target pathes to your autodesk max path\bin\assembl
 
 3. Install instruction for binaries
 --------------------------------------
-Download from github and copy the dll files to your autodesk max path\bin\assemblies
+Download from github and unzip the dll files to your autodesk max path\bin\assemblies
 
 
 
