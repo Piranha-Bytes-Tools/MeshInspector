@@ -43,7 +43,7 @@ namespace MeshInspector
             AssemblyFunctions.Core = AssemblyFunctions.GlobalInterface.COREInterface;
             AssemblyFunctions.Interface7 = AssemblyFunctions.GlobalInterface.COREInterface7;
             
-            //create the descritor and add the class to max via interface 13
+            //create the descritor and add the class to max via core interface
             AssemblyFunctions.Descriptor = new UtilityMeshInspectorDesc(AssemblyFunctions.GlobalInterface);
             AssemblyFunctions.Core.AddClass(AssemblyFunctions.Descriptor);
         }
